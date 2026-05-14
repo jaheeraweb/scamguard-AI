@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - AI Scam Detection</title>
+    <meta name="description" content="Advanced AI-powered scam detection system to keep your communications safe.">
+    
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #2563eb;       /* Royal Blue */
+            --primary-dark: #1e40af;
+            --accent: #06b6d4;        /* Cyan */
+            --text-main: #1e293b;     /* Slate 800 */
+            --text-muted: #64748b;    /* Slate 500 */
+            --bg-body: #f8fafc;       /* Very Light Slate */
+            --bg-white: #ffffff;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.025);
+            --radius: 12px;
+            --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            --max-width: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* --- NAVIGATION --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-container {
+            width: 100%;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-ghost {
+            color: var(--text-main);
+            background: transparent;
+        }
+
+        .btn-ghost:hover {
+            background: #f1f5f9;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            padding-top: 140px; /* Account for fixed nav */
+            padding-bottom: 80px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 0%, #eff6ff 0%, #f8fafc 60%);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: #dbeafe;
+            color: var(--primary);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+            color: var(--text-main);
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+
+        /* --- DEMO PREVIEW SECTION --- */
+        .demo-section {
+            margin-bottom: 80px;
+        }
+
+        .demo-interface {
+            background: var(--bg-white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .demo-header {
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .dot.red { background: #ef4444; }
+        .dot.yellow { background: #f59e0b; }
+        .dot.green { background: #10b981; }
+
+        .demo-title {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-family: monospace;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .demo-body {
+            padding: 24px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: none;
+            outline: none;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .result-box {
+            padding: 16px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            opacity: 0.6;
+            transition: all 0.3s;
+        }
+
+        .result-box.active {
+            opacity: 1;
+        }
+
+        .result-box.safe { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .result-box.danger { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+        
+        .result-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        /* --- FEATURES GRID --- */
+        .features {
+            padding: 80px 0;
+            background: var(--bg-white);
+            border-top: 1px solid var(--border);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .card {
+            padding: 32px;
+            border-radius: var(--radius);
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            background: #eff6ff;
+            color: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; } /* Simplified for mobile demo */
+            .hero-actions { flex-direction: column; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                ScamGuard AI
+            </a>
+            
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How it Works</a>
+                <a href="#pricing">Pricing</a>
+            </div>
+
+            <div class="auth-buttons">
+                <!-- Assuming Flask routes as per user snippet -->
+                <a href="/login" class="btn btn-ghost">Login</a>
+                <a href="/register" class="btn btn-primary">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <div class="container">
+            <span class="badge">New: AI Model V2.0 Released</span>
+            <h1>Protect Yourself with<br><span>Intelligent Scam Detection</span></h1>
+            <p>Our advanced AI analyzes text patterns in real-time to identify phishing, fraud, and malicious content before it's too late.</p>
+            
+            <div class="hero-actions">
+                <a href="/register" class="btn btn-primary">Get Started Free</a>
+                <a href="#demo" class="btn btn-ghost">Try Live Demo</a>
+            </div>
+
+            <!-- LIVE DEMO WIDGET -->
+            <div class="demo-section" id="demo">
+                <div class="demo-interface">
+                    <div class="demo-header">
+                        <div class="dot red"></div>
+                        <div class="dot yellow"></div>
+                        <div class="dot green"></div>
+                        <span class="demo-title">ai_analyzer.exe</span>
+                    </div>
+                    <div class="demo-body">
+                        <textarea id="scanInput" placeholder="Paste a suspicious message here to analyze... (e.g., 'You have won a lottery, click here to claim')"></textarea>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <span style="font-size: 0.85rem; color: var(--text-muted);">AI Confidence Level</span>
+                            <button class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem;" onclick="analyzeText()">Analyze Text</button>
+                        </div>
+
+                        <div id="resultBox" class="result-box">
+                            <svg class="result-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span id="resultText">Waiting for input...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- FEATURES SECTION -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose ScamGuard?</h2>
+                <p style="color: var(--text-muted);">Industry-leading technology designed for safety.</p>
+            </div>
+
+            <div class="grid">
+                <!-- Feature 1 -->
+                <div class="card">
+                    <div class="icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <h3>Real-Time Protection</h3>
+                    <p>Instantly scan messages and emails as they arrive. Our API processes text in milliseconds to warn you immediately.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="card">
+                    <div class="icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    </div>
+                    <h3>Global Database</h3>
+                    <p>We cross-reference every message against a massive, continuously updated database of known scam patterns and blacklisted URLs.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="card">
+                    <div class="icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+                    </div>
+                    <h3>Deep Learning AI</h3>
+                    <p>Our neural network adapts to new scam tactics. Scammers change their methods, and our AI evolves alongside them.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 AI Scam Detection System. All rights reserved.</p>
+            <div style="margin-top: 10px; display: flex; gap: 20px; justify-content: center;">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE SCRIPT (For Showcase Purposes) -->
+    <script>
+        function analyzeText() {
+            const input = document.getElementById('scanInput').value.toLowerCase();
+            const resultBox = document.getElementById('resultBox');
+            const resultText = document.getElementById('resultText');
+            const btn = document.querySelector('.demo-body .btn-primary');
+
+            if(!input.trim()) {
+                resultBox.className = 'result-box';
+                resultText.textContent = "Please enter text to analyze.";
+                return;
+            }
+
+            // Simulate loading state
+            const originalBtnText = btn.textContent;
+            btn.textContent = "Scanning...";
+            btn.disabled = true;
+            resultBox.className = 'result-box';
+            resultText.textContent = "Analyzing semantic patterns...";
+
+            setTimeout(() => {
+                btn.textContent = originalBtnText;
+                btn.disabled = false;
+                resultBox.classList.add('active');
+
+                // Simple heuristic for the demo
+                const scamKeywords = ['won', 'lottery', 'prize', 'click here', 'verify', 'account', 'suspended', 'urgent', 'bitcoin', 'crypto', 'bank', 'password'];
+                const foundScam = scamKeywords.some(keyword => input.includes(keyword));
+
+                if (foundScam) {
+                    resultBox.className = 'result-box danger active';
+                    resultBox.innerHTML = `
+                        <svg class="result-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        <span><strong>Warning:</strong> This text contains scam indicators.</span>
+                    `;
+                } else {
+                    resultBox.className = 'result-box safe active';
+                    resultBox.innerHTML = `
+                        <svg class="result-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span><strong>Safety Check:</strong> No immediate threats detected.</span>
+                    `;
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
